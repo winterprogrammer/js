@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>淘宝特效</title>
+  <style>
+	*{margin:0;padding:0;}
+	ul li{list-style:none;}
+	#container{padding:15px;width:570px;height:420px;margin:100px auto;border:2px solid #ff6300;}
+	#container:after{content:"";display:block;clear:both;}
+	#container a{display:block;text-decoration:none;color:#333;width:93px;height:52px;background:url(img/a-bg.gif)no-repeat;line-height:52px;font-size:16px;text-align:center;margin:3px;}
+	#container ul{margin-top:25px;}
+	#container ul .hover{background:#ff4a6b;}
+	.left{width:95px;height:420px;float:left;}
+	.left #ul-left{margin-right:2px;}
+	.middle{width:350px;height:420px;float:left;margin-left:5px;}
+	.middle img{width:350px;height:383px;margin-top:25px;}
+	.right{width:95px;height:420px;float:left;}
+	.right #ul-right{margin-left:2px;}
+  </style>
+ </head>
+ <body>
+		
+	<div id="container">
+		<div class="wrap">
+			<div class="left">
+				<ul id="ul-left">
+					<a href="javascript:;">连衣裙</a>
+					<a href="javascript:;">雪纺</a>
+					<a href="javascript:;">T桖</a>
+					<a href="javascript:;">铅笔裤</a>
+					<a href="javascript:;">婚纱</a>
+					<a href="javascript:;">外套</a>
+					<a href="javascript:;">连体裤</a>
+				</ul>
+			</div>
+			<div class="middle">
+				<img id="img" src="img/1.jpeg">
+			</div>
+			<div class="right">
+				<ul id="ul-right">
+					<a href="javascript:;">包包</a>
+					<a href="javascript:;">凉鞋</a>
+					<a href="javascript:;">单鞋</a>
+					<a href="javascript:;">太阳镜</a>
+					<a href="javascript:;">丝袜</a>
+					<a href="javascript:;">帆布鞋</a>
+					<a href="javascript:;">情侣装</a>
+				</ul>			
+			</div>
+		</div>
+	</div>
+	
+
+	<script>
+		window.onload = function () {
+			var oContainer = document.getElementById('container');
+			var oImg = document.getElementById('img');
+			var aA = oContainer.getElementsByTagName('a');
+			var index = 0;
+			var len = aA.length;
+			var direction = '+';
+			var timer = null ;
+
+			function autoPlay () {
+				timer = setInterval(function () {
+					clearStyle( aA );
+					index = index % aA.length; 
+					aA[index].className = 'hover';
+					//逆时针判断处理
+					if ( index == ( len/2 -1 )) {
+						index = len; 
+						direction = '-';
+					}
+					if ( index == ( len/2 )) {
+						index = -1;
+						direction = '+';
+					}
+
+					if ( index < len/2 -1 ) {
+						direction = '+';
+					}
+					if ( index > len/2 ) {
+						direction = '-';
+					}
+					// if ( index == len -1 ) {
+					// 	direction = '-';
+					// }
+					// if ( index == 0 ) {
+					// 	direction = '+';
+					// }					// }					
+
+					//index 加或者减
+					if ( direction == '+' ) {
+						index ++; 
+					}
+					else {
+						index --;
+					}
+				},500);
+			}  
+			autoPlay();
+			for ( var i = 0; i < len; i++ ) {
+				aA[i].index = i;
+				aA[i].onmouseover = function () {
+					clearInterval(timer);
+					clearStyle(aA);
+					index = this.index;
+					this.className = 'hover';
+				}
+				aA[i].onmouseout = function () {
+					autoPlay();
+				}
+			}
+			//清除样式
+			function clearStyle ( element ) {
+				for ( var i=0,len = element.length; i < len; i++ ) {
+					element[i].className = '';
+				}
+			}
+
+		}
+	</script>
+ </body>
+</html>

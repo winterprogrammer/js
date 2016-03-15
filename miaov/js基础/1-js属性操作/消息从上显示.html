@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>消息从上显示</title>
+ </head>
+ <body>
+  
+	<div id="msg"></div>
+	<input id="send" type="button" value="留言" />	
+	
+  <script>
+
+	var txt = "AAAAAAAAA<br>";
+	var txt2 = "BBBBBBBBBBBB<br>";
+	var oMsg = document.getElementById('msg');
+	var oSend = document.getElementById('send');
+	var i = 0;
+
+
+	oSend.onclick = function() {
+
+		if(i%2 == 0) {
+			oMsg.innerHTML  = oMsg.innerHTML + txt2;
+		}
+		else {
+			oMsg.innerHTML  = oMsg.innerHTML + txt;
+		}
+		
+		
+		i++;
+	}
+	
+
+  </script>
+
+ </body>
+</html>

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>for应用生成</title>
+  <style>
+	#box{background:#ccc;
+/*	border:1px solid red;*/
+/*	filter:alpha(opacity=100);opacity:1;*/
+	width:530px;height:530px;
+	background:url(img/pic.jpg);
+	
+	}
+	.adiv{float:left;background:#ccc;width:51px;height:51px;border:1px solid white;}
+
+  </style>
+ </head>
+ <body>
+  
+	<div id="box"></div>
+
+
+  <script>
+	window.onload = function() {
+		
+		var oBox = document.getElementById("box");
+		var width = "51px";
+		var str = "";
+
+		for(var i=0;i<100;i++) {
+			str += '<div class="adiv" index='+i+'>'+i+'</div>';
+		}
+		oBox.innerHTML = str;
+
+		var aDiv = oBox.getElementsByTagName('div');
+
+
+		for(var j=0;j<100;j++) {
+			aDiv[j].onmouseover = function() {
+				this.style.background = "none";
+				console.log(this.getAttribute("index"));
+			}
+
+		}
+		
+	}
+  </script>
+ </body>
+</html>

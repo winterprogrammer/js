@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>仿qq菜单</title>
+  <style>
+	*{margin:0;padding:0;}
+	ul li{list-style:none;}
+	#menu{border:1px solid #000;width:240px;margin:0 auto;}
+	#menu h2{background:url(img/1.gif) no-repeat 10px #63f7ff;padding-left:20px;}
+	#menu ul{display:none;}
+	#menu li{border-bottom:1px solid #000;padding-left:20px;line-height:24px;}
+	#menu .hover{background:#63f7ff;}
+  </style>
+ </head>
+ <body>
+	
+	<ul id="menu">
+		<div>
+			<h2>我的好友</h2>
+			<ul>
+				<li>张三</li>
+				<li>张三</li>
+				<li>张三</li>
+			</ul>	
+		</div>
+		<div>
+			<h2>企业好友</h2>
+			<ul>
+				<li>李四</li>
+				<li>李四</li>
+				<li>李四</li>
+			</ul>	
+		</div>
+		<div>
+			<h2>黑名单</h2>
+			<ul>
+				<li>王五</li>
+				<li>王五</li>
+				<li>王五</li>
+			</ul>	
+		</div>
+	</ul>
+
+  <script>
+	window.onload = function () {
+		var oUl = document.getElementById('menu');
+		var aH = oUl.getElementsByTagName('h2');
+		var aUl = oUl.getElementsByTagName('ul');
+		var oldUl = null;
+		var oldH = null;
+		var liArr = [];
+
+		for (var i=0;i<aH.length;i++) {
+			aH[i].index = i;
+		} 
+
+		for (var i=0;i<aH.length;i++) {
+			aH[i].onclick = function () {
+				if (aUl[this.index].className == '') {
+					//点击之后显示ul,此处需要用到自定义属性
+					//显示当前的之前先把其他的隐藏
+					if (oldUl == null) {
+						oldUl = aUl[0];
+						oldH = aH[0];
+					}
+					else {
+						oldUl.className = ''; 
+						oldUl.style.display = 'none'; 
+						oldH.style.background = '';
+					}
+
+					oldUl = aUl[this.index];
+					oldH = aH[this.index];
+
+					aUl[this.index].className = 'active';
+					aUl[this.index].style.display = 'block';
+					this.style.background = 'url(img/2.gif) no-repeat 2px #f7f794';		
+				}
+				else {
+					this.style.background = '';	
+					aUl[this.index].className = '';
+					aUl[this.index].style.display = 'none';
+				}
+			}	
+		}
+		
+		for (var i=0;i<aUl.length;i++) {
+			var aLi = aUl[i].getElementsByTagName('li');
+			for (var j=0;j<aLi.length;j++) {
+				liArr.push(aLi[j]);
+			}		
+		}
+		console.log(liArr);
+		for (var i=0;i<liArr.length;i++) {
+			liArr[i].onclick = function () {
+				for (var k=0;k<liArr.length;k++) {
+					if (liArr[k] != this) {
+						liArr[k].className = '';
+					}
+				}
+				if (this.className == '') {
+					this.className = 'hover';
+				}
+				else {
+					this.className = '';
+				}	
+			}
+		}
+	}
+  
+  </script>
+ </body>
+</html>

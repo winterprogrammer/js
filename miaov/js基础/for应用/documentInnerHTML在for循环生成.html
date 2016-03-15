@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>4-自动生成一个V字</title>
+	<style>
+		.aDiv{width: 100px;height: 100px;background: red;color: #fff;line-height: 100px;text-align:center;position:absolute;font-weight: bold;font-size: 30px;}
+	</style>
+	<script>
+		window.onload = function (){
+			var oBtn = document.getElementById('btn1');
+			var aDiv = document.getElementsByTagName('div');
+			var str = '';
+			
+			//var len = aDiv.length;
+			//var maxPos = Math.floor(len/2);
+			//console.log(maxPos);
+			oBtn.onclick = function (){
+				for (var i=0;i<5;i++){
+					 
+					document.body.innerHTML += '<div class="aDiv">'+ i +'</div>';
+					aDiv[i].style.left = 10 + i*100 + 'px';
+				}
+				console.log(aDiv.length);
+				alert(aDiv.length);
+			}
+			
+			
+		};
+	</script>
+</head>
+<body>
+	<input id="btn1" type="button" value="自动生成一个V字">
+</body>
+</html>

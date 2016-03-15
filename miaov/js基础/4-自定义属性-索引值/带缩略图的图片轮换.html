@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>带缩略图的图片轮换</title>
+  <style>
+	*{margin:0;padding:0;}
+	a{text-decoration:none;color:#000;}
+	li{list-style:none;}
+	#box{width:715px;/*border:1px solid red;*/background:#ccc;}
+	.top{width:700px;height:430px;/*border:1px solid #000;*/position:relative;}
+	.top img{width:698px;height:400px;}
+	.top a{position:absolute;top:200px;display:inline-block;width:30px;background:#e7ad73;text-align:center;color:white;font-size:18px;}
+	.top a:hover{background:#ef9408;}
+	.top .pre{left:60px;}
+	.top .next{right:60px;}
+	.bottom{margin-top:50px;width:700px;height:140px;/*border:1px solid #000;*/text-align:center;}
+	.bottom li{display:inline-block;position:relative;}
+	.bottom a{margin-left:10px;display:inline-block;width:17px;background:url(img/ico2.png) no-repeat 2px;line-height:17px;}
+	.bottom li div{display:none;position:absolute;width:130px;height:97px;left:-47px;top:-98px;/*border:1px solid #000;*/background:url(img/triangle.png) no-repeat center 90px;}
+	.bottom li span{display:inline-block;border:10px solid #fffeff;width:110px;height:70px;}
+	.bottom .current{background:url(img/ico.png) no-repeat;}
+	
+  </style>
+ </head>
+ <body>
+	<div id="box">
+		<div class="top">
+			<a href="javascript:;" class="pre" id="pre"><</a>
+			<a href="javascript:;" class="next" id="next">></a>
+			<div class="pic" id="pic">
+				<img src="img/1.jpeg"/>
+			</div>
+		</div>
+		<div class="bottom" id="bottom">
+			
+				<li>
+					<a href="javascript:;" class="current">1</a>
+					<div>
+						<span>
+							<img src="img/1-small.jpeg"/>
+						</span>
+					</div>
+				</li>
+				<li>
+					<a href="javascript:;" >2</a>
+					<div>
+						<span>
+							<img src="img/1-small.jpeg"/>
+						</span>
+					</div>
+				</li>
+				<li>
+					<a href="javascript:;">3</a>
+					<div>
+						<span>
+							<img src="img/1-small.jpeg"/>
+						</span>
+					</div>
+				</li>
+				<li>
+					<a href="javascript:;">4</a>
+					<div>
+						<span>
+							<img src="img/1-small.jpeg"/>
+						</span>
+					</div>
+				</li>
+			
+		</div>
+	</div>
+
+
+
+  <script>
+	window.onload = function () {
+		var oPrePic = document.getElementById('pre');//点击切换上一张图片
+		var oNextPic = document.getElementById('next');//点击切换下一张图片
+		var oPic = document.getElementById('pic');
+		var aPic = oPic.getElementsByTagName('img');
+		var oBottom = document.getElementById('bottom');
+		var aA = oBottom.getElementsByTagName('a');
+		var aDiv = oBottom.getElementsByTagName('div');
+		var aImg = oBottom.getElementsByTagName('img');
+		  
+		var num = 0; //切换第num张图片
+		var len = aA.length;
+		var oldDiv = null;
+		var bigPicArr = ['img/1.jpeg','img/2.jpeg','img/3.jpeg','img/4.jpeg'];//大图片数组
+		var smallPicArr = ['img/1-small.jpeg','img/2-small.jpeg','img/3-small.jpeg','img/4-small.jpeg'];//缩略图数组
+
+		//给bottom下的每个a设定一个自定义属性，作为索引,这个索引很重要，后面的查找都是根据这个索引值来的
+		for (var i=0;i<len;i++) {
+			aA[i].index = i;
+		}
+
+
+		//底部小圆点的onmouseover事件，onmouseout事件显示和隐藏缩略图，点击事件切换轮播图片
+		for (var i=0;i<len;i++) {
+			aA[i].onmouseover = function () {
+				//先把old的样式清除，再显示当前样式
+				if (oldDiv == null) {
+					oldDiv = aDiv[this.index];
+				}
+				else {
+					oldDiv.style.display = 'none';
+				}	
+				oldDiv = aDiv[this.index];
+				aDiv[this.index].style.display = 'inline-block';
+				aImg[this.index].src = smallPicArr[this.index];
+
+			}
+			aA[i].onmouseout = function () {
+				aDiv[this.index].style.display = 'none';
+			}
+			aA[i].onclick = function () {
+				aPic[0].src = bigPicArr[this.index];
+				//清除掉其它小圆点的样式之后再加上当前样式
+				for (var j=0;j<len;j++) {
+					if (aA[j].className == 'current') {
+						aA[j].className = '';
+					}
+				}
+				aA[this.index].className = 'current';
+				num = this.index;
+			}
+		}
+
+
+		//点击左右切换轮播图片
+		oPrePic.onclick = function () {
+			--num;
+			if (num == -1) {
+				num = 3;
+			} 
+			aPic[0].src = bigPicArr[num];
+			for (var i=0;i<len;i++) {
+				if (aA[i].className == 'current') {
+					aA[i].className = '';
+				}
+			}
+			aA[num].className = 'current';	
+		}
+
+		oNextPic.onclick = function () {
+			++num;
+			if (num == 4) {
+				num = 0;
+			} 
+			aPic[0].src = bigPicArr[num];
+			for (var i=0;i<len;i++) {
+				if (aA[i].className == 'current') {
+					aA[i].className = '';
+				}
+			}
+			aA[num].className = 'current';		
+		}
+	}
+
+	
+
+	//最后总结优化，可以把清除current样式的for循环提出来放到一个单独的函数调用，这样就能少写点代码!
+
+
+  </script>
+ </body>
+</html>

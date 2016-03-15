@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>图片时钟倒计时特效</title>
+
+  <style>
+	*{margin:0;padding:0;}
+	#container{position:relative;margin:180px auto;width:978px;height:172px;overflow:hidden;}
+	#clock-top img{margin:0;border:none;display:block;vertical-align:top;position:absolute;top:0;}
+	#clock-bottom img{margin:0;border:none;display:block;vertical-align:top;position:absolute;top:10;}
+  </style>
+ </head>
+ <body>
+  
+	<div id="container">
+		<div id="clock-top">
+			<img src="img/0.jpg"/>
+			<img src="img/0.jpg"/>
+			<img src="img/colon.jpg"/>
+			<img src="img/0.jpg"/>
+			<img src="img/0.jpg"/>
+			<img src="img/colon.jpg"/>
+			<img src="img/0.jpg"/>
+			<img src="img/0.jpg"/>		
+		</div>
+		<div id="clock-bottom">
+			<img src="img/0.jpg"/>
+			<img src="img/0.jpg"/>
+			<img src="img/colon.jpg"/>
+			<img src="img/0.jpg"/>
+			<img src="img/0.jpg"/>
+			<img src="img/colon.jpg"/>
+			<img src="img/0.jpg"/>
+			<img src="img/0.jpg"/>		
+		</div>
+	</div>
+
+	<script>
+		/**
+			图片是inline-block 元素，代码换行会被解析
+			父级有高度不用清浮动
+		**/	
+	
+		window.onload = function () {
+			var timerColon = null;
+			var colonPic = ['img/colon.JPG','img/colon_black.JPG'];
+			var flag = true;
+			var num = null;
+			var flag2 = true;
+			var oClocktop = document.getElementById('clock-top');
+			var oClockbottom = document.getElementById('clock-bottom');
+			var topImg = oClocktop.getElementsByTagName('img');
+			var bottomImg = oClockbottom.getElementsByTagName('img');
+			var tabPic = ['img/0.JPG','img/1.JPG','img/2.JPG','img/3.JPG','img/4.JPG','img/5.JPG','img/6.JPG','img/7.JPG','img/8.JPG','img/9.JPG'];
+			var str = null;
+			var currentObj = topObj = bottomObj = null;
+
+
+			
+			//计算当前的时间
+			var str = showTime();
+			currentObj = topImg[7];
+			bottomObj = bottomImg[7];	
+
+			//初始化时间显示
+			for ( var i=0,len = topImg.length,j=0; i < len; i++,j++ ) {
+				if ( i == 2 || i == 5 ) {
+					j--;
+					continue;
+				} 
+				topImg[i].src = tabPic[str.charAt(j)];
+			}
+
+
+			//图片位置的摆放
+			for ( i=0; i < len; i++ ) {
+				topImg[i].style.left = i*122 + 'px';
+				bottomImg[i].style.left = i*122 + 'px';
+				bottomImg[i].style.top = 173 + 'px';
+			}
+		
+
+
+			//显示系统当前时间
+			function showTime () {
+				var time = new Date();
+				var hour = time.getHours();
+				var minute = time.getMinutes();
+				var seconds = time.getSeconds();
+				var tStr = toTwo(hour) + toTwo(minute) + toTwo(seconds);
+				return tStr;
+			} 
+
+			
+			//返回时间字符串
+			function toTwo (n) {
+				return n>=10 ? ( '' + n ) : ( '0' + n ) ;
+			}
+			
+
+			//图片的闪烁
+			timerColon = setInterval(function() {
+ 				flag?( topImg[2].src = topImg[5].src = colonPic[0] ):( topImg[2].src = topImg[5].src = colonPic[1] ); 
+				flag = !flag;
+			},500); 
+
+			changePic(currentObj,topObj,bottomObj);
+
+			/**
+				图片的移动与倒计时,先做出一个计时，再做其他的时钟效果
+			**/
+			function changePic ( currentObj, topObj, bottomObj ) {
+				str = showTime();
+				num = str.charAt(str.length-1);
+				console.log(num);
+				var targetTop = -173;
+				var targetCurrent = 0;
+				flag2 = !flag2;
+ 				bottomObj.src = tabPic[(parseInt(num)+1) % 10];
+				doMove(currentObj,'top',35,targetTop,endMove);	
+ 				doMove(bottomObj,'top',35,targetCurrent);				
+			}
+
+			function endMove () {
+				num = ++ num % 10;
+				if ( flag2 ) {
+					currentObj = topImg[7];
+					bottomImg[7].src = tabPic[num];
+					bottomObj = bottomImg[7];
+					bottomImg[7].style.top = 173 + 'px';
+				}
+				else {
+					currentObj = bottomImg[7];
+					topImg[7].src = tabPic[num];
+					bottomObj = topImg[7];
+					topImg[7].style.top = 173 + 'px';
+				}	
+				setTimeout(function() {
+					changePic(currentObj,topObj,bottomObj);
+				},500);
+
+			}
+
+
+
+			//图片移动函数,attr => 方向left,top, dir => 表示步长,速度,target => 要移到的目标位置
+			function doMove ( obj, attr, dir, target, endFn ) {
+				dir = parseInt(getStyle( obj, attr )) < target ? dir : -dir;
+				clearInterval( obj.timer );
+				obj.timer = setInterval(function () {
+					var speed = parseInt(getStyle( obj, attr )) + dir;			// 步长
+					if ( speed > target && dir > 0 ||  speed < target && dir < 0  ) {
+						speed = target;
+					}
+					obj.style[attr] = speed + 'px';
+					if ( speed == target ) {
+						clearInterval( obj.timer );
+						endFn && endFn();
+					}
+				}, 100);
+			}
+
+			function getStyle ( obj, attr ) { 
+				return obj.currentStyle?obj.currentStyle[attr] : getComputedStyle( obj )[attr]; 
+			}
+		
+
+
+		}
+	</script>
+ </body>
+</html>

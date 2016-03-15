@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>选择卡里套选择卡</title>
+  <style>
+	*{padding:0;margin:0;}
+	ul li{list-style:none;}
+	#container{width:970px;height:336px;margin:100px auto;background:#e7e7e7;}
+	.left{float:left;width:160px;height:320px;}
+	.left li{height:81px;border:1px solid #ccc;}
+/*	.left li:hover{background:#ffffff;}*/
+	.right{position:relative;float:right;width:810px;height:333px;}
+	.right img{width:810px;height:333px;}
+	.right_bottom{position:absolute;width:810px;height:30px;top:300px;}
+	.right_bottom a{background:#5a5a52;filter:alpha(opacity=80);opacity:0.8;display:inline-block;width:197px;height:30px;border:1px solid black;color:#fff;text-decoration:none;text-align:center;line-height:30px;}
+	.right_bottom a:hover{background:#ef3163;}
+  </style>
+ </head>
+ <body>
+	<div id="container" >
+		<div class="left">
+			<ul id="ul1">
+				<li>
+					<a href='javascript:;'>
+						<img src='img/lis-1.gif'>
+					</a>
+				</li>
+				<li>
+					<a href='javascript:;'>
+						<img src='img/lis-2.gif'>
+					</a>
+				</li>
+				<li>
+					<a href='javascript:;'>
+						<img src='img/lis-3.gif'>
+					</a>
+				</li>
+				<li>
+					<a href='javascript:;'>
+						<img src='img/lis-4.gif'>
+					</a>
+				</li>
+			</ul>
+		</div>	
+		<div class="right">
+			<img src='img/0.jpg' / id="bigPic">
+			<div class="right_bottom" id="right_bottom">
+<!-- 				<a href="javascript:;">文字加载ing</a> -->
+<!-- 				<a href="javascript:;">文字加载ing</a> -->
+<!-- 				<a href="javascript:;">文字加载ing</a> -->
+<!-- 				<a href="javascript:;">文字加载ing</a> -->
+			</div>
+		</div>		
+
+	</div>
+
+  <script>
+	window.onload = function () {
+		var categoryArr0 = ['img/0.jpg','img/1.jpg','img/2.jpg','img/3.jpg','img/1.jpg','img/2.jpg','img/3.jpg','img/0.jpg'];	
+		var categoryArr1 = ['img/3.jpg','img/2.jpg','img/1.jpg'];
+		var categoryArr2 = ['img/0.jpg','img/3.jpg','img/2.jpg','img/1.jpg'];
+		var categoryArr3 = ['img/0.jpg','img/2.jpg'];
+		var categoryText0 = ['雅诗兰黛','京东代购','天猫','百度','谷歌','微软','Uber','字母表公司'];
+		var categoryText1 = ['小米','华为','苏宁'];
+		var categoryText2 = ['亚马孙','当当','孔夫子二手书','淘宝旧书'];
+		var categoryText3 = ['滴滴','快的打车'];
+			
+		var oUl = document.getElementById('ul1');
+		var aLi = oUl.getElementsByTagName('li');
+		var oBottom = document.getElementById('right_bottom');
+
+		var aLen = aLi.length;
+		for (var i=0;i<aLen;i++) {
+			aLi[i].index = i;
+		}
+		createAList( categoryArr0,categoryText0 );
+		aLi[0].style.background = '#ffffff';
+		for ( var i=0;i<aLen;i++ ) {
+			aLi[i].onmouseover = function () {
+				for ( var j=0;j<aLen;j++ ) {
+					aLi[j].style.background = '';
+				}
+				aLi[this.index].style.background = '#ffffff';
+ 				var listArr = 'categoryArr' + this.index;
+				var textArr = 'categoryText' + this.index;
+				createAList( eval(listArr),eval(textArr) );
+			}
+		}
+
+		function createAList ( imgSrcArr,textContentArr ) {
+ 			var imgLen = imgSrcArr.length;
+			var str = '';
+			var width = ( 810 - imgLen*2 ) / imgLen + 'px';
+			for ( var i=0;i<imgLen;i++ ) {
+				str += "<a href='javascript:;' num="+i+" style='width:"+width+"'>" + textContentArr[i] + "</a>";
+			}
+
+			oBottom.innerHTML = str; 
+			
+			var aList = oBottom.getElementsByTagName('a');
+			var oBigPic = document.getElementById('bigPic');
+			oBigPic.src = imgSrcArr[0];
+			for ( var j=0;j<imgLen;j++ ) {
+				aList[j].onmouseover = function () {
+					oBigPic.src = imgSrcArr[this.getAttribute('num')];
+				}
+			}
+		}
+	}
+  </script>
+ </body>
+</html>

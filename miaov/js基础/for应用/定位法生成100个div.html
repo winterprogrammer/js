@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>定位法生成100个div</title>
+  <style>
+	#box{width:500px;height:500px;position:relative;}
+	.aDiv{width:50px;height:50px;position:absolute;border:1px solid red;}
+  </style>
+ </head>
+ <body>
+	<div id="box"></div>
+
+	<script>
+		var oBox = document.getElementById('box');
+		var str = "";
+		var leftSize = 0;
+		var topSize = 0;
+		
+
+		for(var i=0,j=0;i<100;i++) {
+				
+			leftSize = (i%10)*50 + 'px';
+			if(i%10==0) {
+				topSize = j*50 +'px';
+				j++;
+				console.log(j);
+			}		
+			str += "<div class='aDiv' style='left:"+leftSize+";top:"+topSize+";'>"+i+"</div>";					
+		}
+
+		oBox.innerHTML = str;
+	</script>
+ </body>
+</html>

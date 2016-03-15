@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>模拟短信发送</title>
+  <style>
+	.container{width:290px;height:595px;border:1px solid #fff;margin:0 auto;background:url(images/Bg.jpg);}
+	.box{width:235px;height:423px;margin-top:85px;margin-left:26px;position:relative;background:#fff;}
+	#msgContent{overflow:auto;height:370px;}
+	.msgGet{width:100%;position:absolute;left:2px;bottom:7px;padding-top:10px;}
+	.msgGet img{width:33px;height:33px;background:#fffeff;}
+	#putMsg{width:130px;height:30px;}
+	#sendMsg{left:10px;}
+	.clear{zoom:1;}
+	.clear:after{content:"";display:block;clear:both;}
+  </style>
+ </head>
+ <body>
+	
+	<div class="container">
+		<div class="box"> 
+			<div class="clear" id="msgContent">
+			</div>
+			<div class="msgGet">
+				<img id="imgurl" src="images/Tuhao.gif">
+				<input id="putMsg" type="">
+				<input id="sendMsg" type="button"  value="发送">
+			</div>
+		</div>
+	</div>
+	
+
+	<script>
+		window.onload = function() {
+
+			var oImg = document.getElementById('imgurl');
+			var oSend = document.getElementById('sendMsg');
+			var flag = false; 
+			oImg.onclick = function() {
+
+				console.log(flag);
+				 
+				if(flag) {
+					oImg.setAttribute("src","images/Tuhao.gif");
+				}
+				else {
+					oImg.setAttribute("src","images/Diaosi.gif");
+				}
+				flag = !flag;
+			}
+
+			oSend.onclick = function() {
+				var oMsg = document.getElementById('putMsg');
+				console.log(oMsg.value);
+				
+				var imgurl = oImg.getAttribute("src");
+				console.log(imgurl);
+
+				if(!flag) {
+					var msg = "<div class='clear' style='left:0;margin-top:10px;'>" + "<img style='float:left;' src='" + imgurl + "'>" + "<div style='float:left;width:170px;word-break:break-all;background:green;color:#fff;'>" + oMsg.value  + "</div></div>";
+				}
+				else {
+					var msg = "<div class='clear' style='margin-left:21px;word-break:break-all;right:0;margin-top:10px;'>" + "<div style='float:left;width:160px;background:green;color:#fff;'>" + oMsg.value + "</div><img style='float:right;' src='" + imgurl + "'>" + "</div>";
+				} 				
+				document.getElementById('msgContent').innerHTML = msg+"<br>" + document.getElementById('msgContent').innerHTML ;
+			}
+		}
+	</script>
+ </body>
+</html>

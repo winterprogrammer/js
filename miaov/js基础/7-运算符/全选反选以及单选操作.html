@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>百度音乐-全选操作</title>
+	<style>
+		body,ul,p,input{margin: 0;padding: 0;font-family: "微软雅黑";}
+		li{list-style: none;}
+		img{border: none;vertical-align: top;}
+		a{text-decoration: none;}
+		#wrap{width: 312px;height: 215px;margin: 30px auto;}
+		#wrap ul{height: 180px;border-bottom: 1px solid #dedede;}
+		#wrap ul li{height: 29px;line-height: 30px;position: relative;border-bottom: 1px solid #fff;}
+		#wrap span{margin:0 15px;}
+		#wrap li strong{position: absolute;left: 208px;font-weight: normal;}
+		#bottom{height: 35px;line-height: 35px;position: relative;}
+		#bottom div{position: absolute;left: 89px;top: 5px;}
+		#bottom a{display: inline-block;}
+	</style>
+	<script>
+		/*思路：
+			1.全选的时候所有的checkbox都选中；下面三个按钮也可选；所有选中的li背景色变成灰色；
+			2.鼠标移入每个li的时候，li背景色变成灰色；鼠标移开，恢复到原来的背景色；
+			3.
+		*/
+		window.onload = function (){
+			var oWrap = document.getElementById('wrap');
+			var oUl = oWrap.getElementsByTagName('ul')[0];
+			var aLi = oUl.getElementsByTagName('li');
+			var aInput = oUl.getElementsByTagName('input');
+			var oBottom = document.getElementById('bottom');
+			var oAllSelect = oBottom.getElementsByTagName('input')[0];
+			var aImg = oBottom.getElementsByTagName('img');
+			var onOff = true;
+			var arrColor = ['#deffff','#fff'];
+			var arrNormal = ['img/save.gif','img/add.gif','img/delete.gif'];
+			var arrActive = ['img/saveS.gif','img/addA.gif','img/deleteD.gif'];
+			
+
+			for (var i=0,len=aLi.length;i<len;i++){
+				aLi[i].index = i;
+				aInput[i].index = i;
+				aInput[i].onOff = true;
+				aLi[i].onOff = true;
+				aLi[i].style.background = arrColor[i%arrColor.length];
+
+				//点击单个input 的事件
+				aInput[i].onclick = function () {
+					if ( aInput[this.index].checked ) {
+						aLi[this.index].style.background = '#d9d3d3';
+					}	
+					else {
+						aLi[this.index].style.background = arrColor[this.index%arrColor.length];
+					}
+				}
+				//mouseover 事件
+				aLi[i].onmouseover = function () {
+					this.style.background = '#d9d3d3';
+				}
+				// mouseout 事件
+				aLi[i].onmouseout = function () {
+					 if ( !aInput[this.index].checked ) {
+						if (this.onOff) {
+							this.style.background = arrColor[this.index%arrColor.length];
+						}
+						else {
+							this.style.background = '#d9d3d3';
+						}					 
+					 }
+				}
+			}; 
+
+			oAllSelect.onclick = function (){
+				selectAll();
+			} 
+
+			//全选和反选
+			function selectAll () {
+				for ( var i=0,len=aLi.length;i< len;i++) {
+					if ( onOff ) {
+						aInput[i].checked = true;
+						aLi[i].style.background = '#d9d3d3';					
+					}
+					else {
+						aInput[i].checked = false;
+						aLi[i].style.background = arrColor[i%arrColor.length];						
+					}					
+				}
+				onOff = !onOff;
+			}
+		}
+	</script>
+</head>
+<body>
+	<div id="wrap">
+		<ul>
+			<li>
+				<input type="checkbox"/><span>私奔</span><strong>梁博</strong>
+			</li>
+			<li>
+				<input type="checkbox"/><span>北京北京</span><strong>梁博,黄勇</strong>
+			</li>
+			<li>
+				<input type="checkbox"/><span>我爱你中国</span><strong>梁博</strong>
+			</li>
+			<li>
+				<input type="checkbox"/><span>花火</span><strong>梁博</strong>
+			</li>
+			<li>
+				<input type="checkbox"/><span>回来</span><strong>梁博</strong>
+			</li>
+			<li>
+				<input type="checkbox"/><span>爱要有你才完美</span><strong>梁博,那英</strong>
+			</li>
+		</ul>
+		<div id="bottom">
+			<input type="checkbox"/><span>全选</span> 
+			<div>
+				<a href="javascript:;">
+					<img src="img/save.gif" alt=""/>
+				</a>
+				<a href="javascript:;">
+					<img src="img/add.gif" alt=""/>
+				</a>
+				<a href="javascript:;">
+					<img src="img/delete.gif" alt=""/>
+				</a>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>定时器自动切换</title>
+  <style>
+	*{margin:0;padding:0;}
+	ul li{list-style:none;}
+	#container{margin:100px auto;width:580px;border:1px solid #333;padding:10px;}
+	.top:after{content:"";display:block;clear:both;}
+	.top li{float:left;}
+	.top ul a{color:white;display:inline-block;width:145px;height:55px;line-height:55px;text-align:center;}
+	.top .active{background:#005a63;}
+	.top .menu1{background:#94ffc6;}
+	.top .menu2{background:#94ffc6;}
+	.bottom:after{content:"";display:block;clear:both;}
+	.bottom .b_left{float:left;}
+	.bottom .b_left img{width:360px;height:165px;}
+	.bottom .b_right{float:left;}
+	.bottom .b_right a{padding-left:35px;display:block;width:184px;height:53px;background:#f7f7f7;color:black;text-decoration:none;line-height:53px;font-size:bold;}
+	.bottom .b_right .hover{background:#639cc6;color:#ffffff;}
+  </style>
+ </head>
+ <body>
+	<div id="container">
+		<div class="top">
+			<ul>
+				<li class="menu1">
+					<a href="javascript:;">菜单一</a>
+				</li>
+				<li class="menu2">
+					<a href="javascript:;">菜单二</a>
+				</li>
+			</ul>
+		</div>
+		<div class="bottom">
+			<div class="b_left" >
+				<img id="img" src="img/2-1.jpg">
+			</div>
+			<div class="b_right">
+				<span><a class="hover" href="javascript:;">图片1</a></span>
+				<span><a href="javascript:;">图片2</a></span>
+				<span><a href="javascript:;">图片3</a></span>
+			</div>
+		</div>
+	</div>	
+
+  <script>
+	window.onload = function () {
+		var menuPic = ['img/2-1.jpg','img/2-2.jpg','img/2-3.jpg','img/2-4.jpg','img/2-5.jpg','img/2-6.jpg'];
+		var menuText1 = ['图片1','图片2','图片3'];
+		var menuText2 = ['图片4','图片5','图片6'];
+
+		var oContainer = document.getElementById('container');
+		var aSpan = oContainer.getElementsByTagName('span');
+		var menu = oContainer.getElementsByTagName('div')[0].getElementsByTagName('li');
+		var oImg = document.getElementById('img');
+		var tab = 0;
+		var m = 0;
+		var n = 0;
+		console.log(menu);
+		menu[0].className = 'active';
+		setInterval(function() {
+			if ( n > 2 ) {
+				menu[0].className = 'menu1';
+				menu[1].className = 'active';
+			}
+			else {
+				menu[0].className = 'active';
+				menu[1].className = 'menu2';
+			}
+			if ( n > 2 ) {
+				for ( var i=0,len=aSpan.length;i<len;i++ ) {
+					aSpan[i].getElementsByTagName('a')[0].innerHTML = menuText2[i];
+				}
+			}
+			else {
+				for ( var i=0,len=aSpan.length;i<len;i++ ) {
+					aSpan[i].getElementsByTagName('a')[0].innerHTML = menuText1[i];
+				}			
+			}
+			for ( var j=0;j<len;j++ ) {
+				aSpan[j].getElementsByTagName('a')[0].className = '';
+			}
+
+			oImg.src = menuPic[n];
+			aSpan[m].getElementsByTagName('a')[0].className = 'hover';
+			m = ++m % 3;
+			n = ++n % 6;
+		},1000);
+	}
+  </script>
+ </body>
+</html>

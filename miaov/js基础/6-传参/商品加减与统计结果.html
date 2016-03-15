@@ -1,0 +1,156 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>无标题文档</title>
+<script>
+window.onload = function () {
+	var oUl = document.getElementById('list');
+	var aLi = oUl.getElementsByTagName('li');
+	var totalNum = 0;	
+	var totalPrice = 0;
+	var priceArr = [];
+ 	var maxPrice = 0;
+	// fnCount ( aLi[0] );
+	for ( var i=0; i<aLi.length; i++ ) {
+		aLi[i].index = i;
+		fnCount ( aLi[i] );
+	}
+
+ 	function fnCount ( li ) {
+		var aBtn = li.getElementsByTagName ('input');
+		var oStrong = li.getElementsByTagName ('strong')[0];
+		var oEm = li.getElementsByTagName ('em')[0];
+		var oSpan = li.getElementsByTagName ('span')[0];
+		var n = oStrong.innerHTML;			// '0'
+		var price = parseFloat(oEm.innerHTML);			// 12.5
+		
+		
+
+		aBtn[0].onclick = function () {
+			if ( n > 0 ) {
+				n--;
+				totalNum --;
+				showInfo( n,(- price) );
+				console.log('总数减少为:' + totalNum );
+			}
+			
+			oStrong.innerHTML = n;
+			oSpan.innerHTML = n*price + '元';
+
+			
+		};
+		aBtn[1].onclick = function () {
+			n++;
+			totalNum ++;
+			oStrong.innerHTML = n;
+			oSpan.innerHTML = n*price + '元';
+			console.log('总数增加到 :' + totalNum );
+			if ( priceArr.indexOf(price) === -1 ) {
+				priceArr.push(price);	
+			}
+			
+			showInfo( n,price );
+		};
+
+	}
+
+
+	
+	//显示当前的商品总数，花费总数，最贵的商品单价信息
+	function showInfo( n,price ) {
+		var aP = document.getElementsByTagName('p');
+		var aStrong = aP[0].getElementsByTagName('strong');//0 => 商品数, 1 => 价格总数, 2 => 最贵单价
+		aStrong[0].innerHTML = totalNum;
+		totalPrice = totalPrice + price;
+		aStrong[1].innerHTML = totalPrice;
+
+		//找出最贵的商品
+//		if ( maxSingleTotal < singleTotal2 ) {
+//			maxSingleTotal = singleTotal2;
+//			aStrong[2].innerHTML = price;
+//		}
+		 
+		if ( totalNum === 0 ) {
+			aStrong[2].innerHTML = 0;
+			return ;
+		}
+		else if ( n === 0 ) {
+			removePrice( Math.abs(price) );
+		}
+		maxPrice = getMaxPrice();
+		aStrong[2].innerHTML = maxPrice;
+	}
+
+
+	function removePrice ( price ) {
+ 		for (var i=0;i<priceArr.length;i++) {
+			if ( price === priceArr[i] ) {
+ 				priceArr.splice(i,1);
+			}
+		}
+ 	}
+		
+
+	function getMaxPrice () {
+ 		var max = 0;
+		for (var i=0;i<priceArr.length;i++) {
+			if ( max < priceArr[i] ) {
+				max = priceArr[i];
+			}
+		}
+		return max;
+	}
+
+
+};
+</script>
+</head>
+
+<body>
+
+<ul id="list">
+	<li>
+  	<input type="button" value="-" />
+    <strong>0</strong>
+  	<input type="button" value="+" />
+    单价：<em>12.5元</em>
+    小计：<span>0元</span>
+  </li>
+	<li>
+  	<input type="button" value="-" />
+    <strong>0</strong>
+  	<input type="button" value="+" />
+    单价：<em>10.5元</em>
+    小计：<span>0元</span>
+  </li>
+	<li>
+  	<input type="button" value="-" />
+    <strong>0</strong>
+  	<input type="button" value="+" />
+    单价：<em>8.5元</em>
+    小计：<span>0元</span>
+  </li>
+	<li>
+  	<input type="button" value="-" />
+    <strong>0</strong>
+  	<input type="button" value="+" />
+    单价：<em>8元</em>
+    小计：<span>0元</span>
+  </li>
+	<li>
+  	<input type="button" value="-" />
+    <strong>0</strong>
+  	<input type="button" value="+" />
+    单价：<em>14.5元</em>
+    小计：<span>0元</span>
+  </li>
+</ul>
+
+<p>
+商品合计共：<strong>0</strong>件，共花费了：<strong>0</strong>元<br />
+其中最贵的商品单价是：<strong>0</strong>元
+</p>
+
+</body>
+</html>

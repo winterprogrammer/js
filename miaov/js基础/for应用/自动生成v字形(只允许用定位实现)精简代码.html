@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>自动生成v字型</title>
+  <style>
+	#container{width:400px;height:500px;/*border:1px solid red;*/}
+	#box{width:300px;height:400px;/*border:1px solid red;*/margin:0 auto;padding:10px 20px;position:relative;}
+	.pdiv{float:left;width:50px;height:50px;color:white;font-size:18px;background:red;position:absolute;text-align:center;line-height:50px;}
+  </style>
+ </head>
+ <body>
+	
+	<div id="container">
+		<input type="button" id="btn" value="生成div">
+		<div id="box">
+		</div>
+	</div>
+
+  <script>
+		/**
+			思路
+		**/
+		
+		var oBtn = document.getElementById('btn');
+		var oBox = document.getElementById('box');
+		var clickNum = 0;
+		var len = 5;//生成的div块数目,想出现对称的翻转效果，len 必须为奇数
+		var flag = [true,false,false,true]//状态切换 
+		oBtn.onclick = function () {
+			var str = "";
+			var top = 0;
+			var left = 0;
+			var maxPos = Math.floor(len/2);
+			for (var i=0,j=maxPos;i<len;i++) {
+				var tmp1 = i*50 + 'px';
+				var tmp2;
+				if (flag[clickNum]) {
+					tmp2 = j * 50 + 'px';					 
+					(clickNum == 0 )?((function(){left = tmp1;top = tmp2;})()):((function(){left = tmp2;top = tmp1;})());
+					if(i<maxPos) {
+						j --;
+					}
+					else {
+						j ++;
+					}					
+				} 
+				else {
+					if(i>maxPos) {
+						j--;
+						tmp2 = j * 50 + 'px';
+					}
+					else {
+						tmp2 = i*50 + 'px';
+					}	
+					(clickNum == 1)?((function(){left = tmp2;top = tmp1;})()):((function(){left = tmp1;top = tmp2;})());
+				}
+				str += "<div class='pdiv' style='left:"+left+";top:"+top+";'>"+i+"</div>";
+			}
+			oBox.innerHTML = str;
+			clickNum = ++clickNum % (len-1);
+		}
+
+  </script>
+ </body>
+</html>

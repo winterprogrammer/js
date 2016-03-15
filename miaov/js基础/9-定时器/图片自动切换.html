@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>图片自动切换，无限无缝循环滚动</title>
+
+  <style>
+	*{margin:0;padding:0;}
+	#container ul li{list-style:none;}
+	#container{position:relative;/*width:500px;*/height:300px;/*border:1px solid red;*/margin:100px auto;}
+	#frame{position:relative;width:500px;border:10px solid #ccc;height:300px;margin:0 auto;overflow:hidden;}
+	#container #list {margin-left:-520px;width:9999px;}
+	#container #list li{float:left;}
+ 	#container img{width:500px;height:300px;margin-left:10px;}
+	#message{position:absolute;left:0;bottom:-82px;width:500px;height:80px;color:white;background:black;opacity:0.6;filter:Alpha(opacity=60);}
+	#message h3{text-align:center;}
+	#message p{text-indent:2em;font-size:14px;}
+  </style>
+ </head>
+	
+	<div id="container">
+		<div id="frame">
+			<ul id="list">
+				<li>
+					<img src="img/4.jpeg">
+				</li>
+				<li>
+					<img src="img/1.jpeg">
+				</li>
+				<li>
+					<img src="img/2.jpeg">
+				</li>
+				<li>
+					<img src="img/3.jpeg">
+				</li>
+				<li>
+					<img src="img/4.jpeg">
+				</li>
+				<li>
+					<img src="img/1.jpeg">
+				</li>
+			</ul>
+			<div id="message">
+				<h3>我是可爱的萌萌哒1号</h3>
+				<p>超级萌萌哒哈哈哈哈哈哈哈哈哈超级萌哈哈</p>
+			</div>	
+		</div>
+
+	</div>
+
+	<script>
+		/**
+			无限轮播图片滚动
+		**/
+		var oContainer = document.getElementById('container');
+		var oFrame = document.getElementById('frame');
+		var oList = document.getElementById('list');
+		var oMessage = document.getElementById('message');
+		var left = -520;  
+		
+		//切换图片函数
+		function tabPic () {
+			if ( left > -2560 ) {
+ 				left = left - 510;
+				console.log(left);
+			}
+			else {
+				left = -1030;
+ 				oList.style.marginLeft = -520 + 'px';
+			}
+			doMove( oList, 'marginLeft', 50, left, moveUp );
+			//setTimeout(tabPic, 3000);			
+		}
+
+		setTimeout(tabPic, 2000);	
+		
+		//回调函数,将底部的message的div移出来,移动完之后再调用回调函数moveDown移下去
+		function moveUp () {
+			doMove( oMessage, 'bottom', 15, -2, moveDown );
+		}
+
+		//将message的div 再移下去
+		function moveDown () {
+			setTimeout(function () {
+				doMove( oMessage, 'bottom', 15, -82, autoStart );
+			},1000);
+		} 
+
+		//自动开始
+		function autoStart () {
+			setTimeout(tabPic, 1000);
+		}
+
+		//图片移动函数
+		function doMove ( obj, attr, dir, target, endFn, num ) {
+			console.log(target);
+			dir = parseInt(getStyle( obj, attr )) < target ? dir : -dir;
+ 			clearInterval( obj.timer );
+			obj.timer = setInterval(function () {
+				var speed = parseInt(getStyle( obj, attr )) + dir;			// 步长
+ 				if ( speed > target && dir > 0 ||  speed < target && dir < 0  ) {
+					speed = target;
+				}
+  				obj.style[attr] = speed + 'px';
+  				if ( speed == target ) {
+					console.log(566666666666);
+ 					clearInterval( obj.timer );
+ 					endFn && endFn();
+				}
+			}, 100);
+		}
+
+		function getStyle ( obj, attr ) { return obj.currentStyle?obj.currentStyle[attr] : getComputedStyle( obj )[attr]; }
+
+
+
+	</script>
+	
+ <body>
+  
+ </body>
+</html>

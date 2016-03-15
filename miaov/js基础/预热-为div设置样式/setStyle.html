@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>设置div样式</title>
+  <style>
+	body{margin:50px;padding:0;background:#efefef;}
+	#mask{display:none;background:#808080;opacity:0.5;position:absolute;top:0;left:0;z-index:999;width: 100%;height: 100%;}
+/*	#mask{position: absolute;top:30px;left: 0;width: 100%;height: 100%;background: #808080;opacity:0.5;}*/
+	#prop{background:#9c949c;width:344px;height:244px;overflow:hidden;position:absolute;top:200px;left:300px;display:none;z-index:1000;}
+	#prop_inner{background:#ffffff;width:300px;height:200px;margin:20px;}
+	#setStyle{background:red;color:white;width:103px;height:38px;}
+	#shape{width:100px;height:100px;border:2px solid black;background:#ffffff;}
+	.title{float:left;margin-right:-11px;margin-left:7px;margin-top:9px;}
+	.title h3{color:#000000;}
+	.select{float:left;margin-top:-8px;margin-left:-28px;}
+	.select ul{padding-left:-20px;}
+	.select a{width:36px;height:33px;border:1px solid #ccc;background:#efefef;text-decoration:none;color:#000000;display:block;float:left;margin-left:9px;text-align:center;line-height:35px;margin-top:10px;color:}
+	.select a:hover{background:#ef9400}
+	.select .color a{width:36px;height:33px;color:white;}
+	.select #first{background:#9cce00;}
+	.select #first:hover{background:red;}
+	.select #second{background:#efbd00;}
+	.select #second:hover{background:yellow;}
+	.select #three{background:#5a94ef;}
+	.select #three:hover{background:blue;}
+	.btn{padding-top:160px;padding-left:82px;}
+	.btn input{background:#002952;color:white;width:60px;height:30px;}
+/**/
+  </style>
+ </head>
+ <body>
+
+	<div id="mask"></div>
+	<div id="prop">
+		<div id="prop_inner">
+			 <div class="title">
+				<h3>请选择背景色:</h3>
+				<h3>请选择宽(px):</h3>
+				<h3>请选择高(px):</h3>
+			 </div>
+			 <div class="select">
+				<ul class="color" id="color">
+					<a href="javascript:;" id="first" index="1">红</a>
+					<a href="javascript:;" id="second" index="2">黄</a>
+					<a href="javascript:;" id="three" index="3">蓝</a>
+				</ul>
+				<ul class="shapeW" id="shapeW">
+					<a href="javascript:;" index="0">200</a>
+					<a href="javascript:;" index="1">300</a>
+					<a href="javascript:;" index="2">400</a>
+				</ul>
+				<ul class="shapeH" id="shapeH">
+					<a href="javascript:;" index="0">200</a>
+					<a href="javascript:;" index="1">300</a>
+					<a href="javascript:;" index="2">400</a>
+				</ul>
+			 </div>
+			 <div class="btn" >
+				<input  type="button" value="恢复">
+				<input  type="button" value="确定">
+			 </div>
+		</div>
+	</div>
+
+
+	<div id="container">
+		<div >
+			<span><strong>请为下面的DIV设置样式:</strong></span>
+			<input id="setStyle" type="button" value="点击设置">
+		</div>
+		<div id="shape"></div>
+	</div>
+
+	
+
+	<script>
+		
+		/**
+			弹出遮罩层，设置样式
+		**/
+		var colors = ['red','yellow','blue'];
+
+		var oBtn = document.getElementById("setStyle");
+
+		oBtn.onclick = function () {
+			
+			var oMask = document.getElementById('mask');
+			var oProp = document.getElementById("prop");
+			var oShape = document.getElementById("shape");
+			oProp.style.display = 'block';
+			oMask.style.display = 'block';
+			
+			oMask.onclick = function () {
+				oProp.style.display = 'none';
+				oMask.style.display = 'none';		
+			}
+
+			var oSelect = document.getElementById("color");
+
+			oSelectColor = oSelect.getElementsByTagName("a");
+ 
+			oSelectColor[0].onclick = function () {
+ 				oShape.style.background = colors[0];
+
+			}				
+
+			oSelectColor[1].onclick = function () {
+ 				oShape.style.background = colors[1];
+			}	
+
+			oSelectColor[2].onclick = function () {
+ 				oShape.style.background = colors[2];
+			}				
+
+			var oShapeW = document.getElementById("shapeW");
+			var oShapeWidth = oShapeW.getElementsByTagName("a");
+  
+			for (var i = 0; i<oShapeWidth.length;i++) {
+
+				(function(i) {
+					oShapeWidth[i].onclick = function() {
+						var index = this.getAttribute('index');
+						oShape.style.width =  oShapeHeight[index].innerHTML + 'px';
+						 
+					}					
+				})(i);
+			}
+
+			var oShapeH = document.getElementById("shapeH");
+			var oShapeHeight = oShapeH.getElementsByTagName("a");
+			for (var i = 0; i<oShapeHeight.length;i++) {
+				
+				(function(i) {
+					oShapeHeight[i].onclick = function() {
+						console.log(i);//需要注意，此处i 输出一直都是length值
+						var index = this.getAttribute('index');
+						console.log(index);
+						oShape.style.height =  oShapeHeight[index].innerHTML + 'px';
+					}
+				})(i);
+			}
+			
+		}
+
+
+	</script>
+
+
+
+
+ </body>
+</html>

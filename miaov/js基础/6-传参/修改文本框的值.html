@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>修改文本框的值</title>
+  <style>
+	*{padding:0;margin:0;}
+	ul li{list-style:none;}
+	#container{width:800px;height:500px;margin:100px auto;background:#ffffff;}
+	#container ul{margin:0 auto;width:570px;border:1px solid black;}
+	#container ul li {height:30px;border-bottom:1px solid black;line-height:30px;padding-left:30px; no-repeat 137px;}
+	#container ul li span{max-width:460px;float:left;overflow:hidden;height:30px;}
+	#container ul li input{display:none;}
+	#container ul li a{position:relative;background:url(img/hw2-1.gif) no-repeat;display:inline-block;width:70px;height:16px;line-height:16px;margin-left:10px;text-align:center;line-height:16px;text-decoration:none;}
+	#container ul .save{display:none;width:50px;background:url();color:#429400;}
+	#container ul .save:hover{background:#6ba542;color:#ffffff;}
+	#container ul .cancle{display:none;width:50px;background:url();color:#429400;}
+	#container ul .cancle:hover{background:#6ba542;color:#ffffff;}
+	#container .edit{position:absolute;display:none;top:10px;border:1px solid black;border-radius:2px;color:black;font-size:12px;height:17px;}
+  </style>
+
+ </head>
+ <body>
+	<div id="container">
+		<ul id="ul">
+			<li>分类名称</li>
+			<li>
+				<span>妙味远程课堂</span>
+				<input type="text" />
+				<a class="save" href="javascript:;">保存</a>	
+				<a class="cancle" href="javascript:;">取消</a>
+				<a href="javascript:;">
+					<span class="edit">点击编辑</span>
+				</a>
+			</li>
+			<li>
+				<span>妙味远程课堂</span>
+				<input type="text" />
+				<a class="save" href="javascript:;">保存</a>	
+				<a class="cancle" href="javascript:;">取消</a>
+				<a href="javascript:;">
+					<span class="edit">点击编辑</span>
+				</a>
+			</li>
+			<li>
+				<span>妙味远程课堂</span>
+				<input type="text" />
+				<a class="save" href="javascript:;">保存</a>	
+				<a class="cancle" href="javascript:;">取消</a>
+				<a href="javascript:;">
+					<span class="edit">点击编辑</span>
+				</a>
+			</li>			
+			<li>
+				<span>妙味远程课堂</span>
+				<input type="text" />
+				<a class="save" href="javascript:;">保存</a>	
+				<a class="cancle" href="javascript:;">取消</a>
+				<a href="javascript:;">
+					<span class="edit">点击编辑</span>
+				</a>
+			</li>	
+			<li>
+				<span>妙味远程课堂</span>
+				<input type="text" />
+				<a class="save" href="javascript:;">保存</a>	
+				<a class="cancle" href="javascript:;">取消</a>
+				<a href="javascript:;">
+					<span class="edit">点击编辑</span>
+				</a>
+			</li>	
+			<li>
+				<span>妙味远程课堂</span>
+				<input type="text" />
+				<a class="save" href="javascript:;">保存</a>	
+				<a class="cancle" href="javascript:;">取消</a>
+				<a href="javascript:;">
+					<span class="edit">点击编辑</span>
+				</a>
+			</li>	
+			<li>
+				<span>妙味远程课堂</span>
+				<input type="text" />
+				<a class="save" href="javascript:;">保存</a>	
+				<a class="cancle" href="javascript:;">取消</a>
+				<a href="javascript:;">
+					<span class="edit">点击编辑</span>
+				</a>
+			</li>	
+			<li>
+				<span>妙味远程课堂</span>
+				<input type="text" />
+				<a class="save" href="javascript:;">保存</a>	
+				<a class="cancle" href="javascript:;">取消</a>
+				<a href="javascript:;">
+					<span class="edit">点击编辑</span>
+				</a>
+			</li>	
+			<li>
+				<span>妙味远程课堂</span>
+				<input type="text" />
+				<a class="save" href="javascript:;">保存</a>	
+				<a class="cancle" href="javascript:;">取消</a>
+				<a href="javascript:;">
+					<span class="edit">点击编辑</span>
+				</a>
+			</li>	
+
+		</ul>
+	</div>
+
+	<script>
+		window.onload = function () {
+			var oUl = document.getElementById('ul');
+			aLi = oUl.getElementsByTagName('li');
+ 			aLi[0].style.color = 'white';
+			aLi[0].style.background = '#6ba542';
+
+			var len = aLi.length;
+			for ( var i=1;i<len;i++) {	
+				edit(i,aLi);
+			}
+
+			function edit(i,aLi) {
+				var aA = aLi[i].getElementsByTagName('a');
+				aA[2].onmouseover = function () {
+					this.getElementsByTagName('span')[0].style.display = 'block';
+				}
+				aA[2].onmouseout = function () {
+					this.getElementsByTagName('span')[0].style.display = 'none';
+				}
+				aA[2].onclick = function () {
+					this.style.display = 'none';
+					changeDisplay(i,aLi,aA,'inline-block','edit');
+				}
+				//保存 
+				aA[0].onclick = function () {
+					changeDisplay(i,aLi,aA,'none','save');
+				}	
+				//取消
+				aA[1].onclick = function () {
+					changeDisplay(i,aLi,aA,'none','cancle');
+				}			
+			}
+
+			/**
+				切换保存,取消
+			**/
+			function changeDisplay ( i,aLi,aA,status,flag ) {
+				var input = aLi[i].getElementsByTagName('input')[0];
+				var span = aLi[i].getElementsByTagName('span')[0];
+				aA[0].style.display = status;
+				aA[1].style.display = status;	
+				if ( flag === 'edit' ) {
+					aA[2].style.display = 'none';		
+					input.style.display = 'inline-block';
+					input.value = span.innerHTML;
+					span.style.display = 'none';					
+				}
+				else {
+					aA[2].style.display = 'inline-block';
+					span.style.display = 'inline-block';
+					input.style.display = 'none';
+					if ( flag === 'cancle' ) {
+						input.value = '';
+					}
+					else if ( flag === 'save' ) {
+						span.innerHTML = input.value;
+					}				
+				}
+			}
+ 		}
+	</script>
+
+ </body>
+</html>

@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>点击加分效果</title>
+  <style>
+	*{margin:0;padding:0;}
+	#container{margin:200px auto;width:500px;height:50px;border:1px solid black;}
+	#container span{font-size:30px;margin-left:11px;line-height:50px;z-index:1;position:absolute;top:200px;}
+	#bar{background:#5af7ef;width:0;height:50px;position:absolute;z-index:-2;}
+  </style>
+ </head>
+ <body>
+	<div id="container">
+		<div id="bar">
+		</div>
+		<span>+1</span>
+		<span>+1</span>
+		<span>+1</span>
+		<span>+1</span>
+		<span>+1</span>
+		<span>+1</span>
+		<span>+1</span>
+		<span>+1</span>
+		<span>+1</span>
+		<span>+1</span>
+	</div>
+	
+	<script>
+		/**
+			@timerBar 用一个定时器timerBar控制进度条显示
+			@barWidth 进度条增加的宽度
+		**/
+		var oContainer = document.getElementById('container');
+		var oBar = document.getElementById('bar');
+		var aSpan = oContainer.getElementsByTagName('span');
+		var timerBar = null;
+		var timerUp = null;
+		var timerLight = null;
+		var barWidth = 0;
+		var num = 0;
+		var len = aSpan.length;;
+
+
+		for ( var i=0; i<len; i++ ) {
+			aSpan[i].style.left = 430 + i*50 + 'px';
+		}
+
+		oContainer.onclick = function () {
+			//进度条控制
+			var opacity = 1;
+			if ( timerBar === null ) {
+				timerBar = setInterval(function () {
+				 if ( barWidth < 500 ) {
+					 barWidth = barWidth + 100;
+					 oBar.style.width = barWidth + 'px';				
+					//颜色变淡
+					if ( timerLight === null ) {
+						timerLight = setInterval(function () {
+							if ( parseFloat(opacity) < 0 ) {
+								opacity = 0;
+								clearInterval(timerLight);
+								timerLight = null;
+							}
+							else 
+								opacity = opacity - 0.1;
+							oBar.style.opacity = opacity;
+						},200) ; 					
+					}
+				 }
+				},100);				 
+			}
+
+			//控制 + 1 的文字向上走淡消失, 主要思路是设置透明度,opacity 属性,逐渐变为 0 ,在doMove 函数里设置
+			if ( timerUp === null ) {
+				timerUp = setInterval(function () {
+					doMove( aSpan[num], 'top', 20, 0, endFn, num);
+					num ++;
+					if ( num === 10 ) {
+						clearInterval(timerUp);
+						clearInterval(timerBar);
+						num = 0;
+ 					}
+				},100);
+			}
+
+		}
+
+		
+		//复位
+		function endFn (num) {
+			if ( num == len-1 ) {
+				for ( var i=0; i<len; i++ ) {
+					aSpan[i].style.top = 200 + 'px';
+					aSpan[i].style.opacity = 1;
+				}		
+				timerBar = null;
+				timerUp = null;
+				barWidth = 0;
+				oBar.style.width = barWidth + 'px';
+ 				oBar.style.opacity = 1;
+			}
+		}
+
+		//miaov.js的内容
+		function doMove ( obj, attr, dir, target, endFn, num ) {
+			dir = parseInt(getStyle( obj, attr )) < target ? dir : -dir;
+			var opacity = 1;
+			clearInterval( obj.timer );
+			obj.timer = setInterval(function () {
+				var speed = parseInt(getStyle( obj, attr )) + dir;			// 步长
+				if ( speed > target && dir > 0 ||  speed < target && dir < 0  ) {
+					speed = target;
+				}
+  				obj.style[attr] = speed + 'px';
+				if ( parseFloat(opacity) > 0.1 )
+					opacity = opacity - 0.1;
+				 obj.style.opacity = opacity;
+ 				if ( speed == target ) {
+ 					clearInterval( obj.timer );
+					obj.style.opacity = 0;
+					endFn && endFn(num);
+				}
+			}, 100);
+		}
+
+		function getStyle ( obj, attr ) { return obj.currentStyle?obj.currentStyle[attr] : getComputedStyle( obj )[attr]; }
+
+	</script>
+ </body>
+</html>

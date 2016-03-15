@@ -1,0 +1,127 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>无标题文档</title>
+<style>
+	body,p{margin: 0;padding: 0;}
+	img{vertical-align: top;border: none;}
+	#wrap{width:505px;height: 62px;line-height:62px;margin: 30px auto;font-family: "宋体";font-size: 16px;font-weight: bold;text-indent: 8px;}
+	#wrap span{color: red;}
+	#wrap p,#wrap div,#wrap strong,img{float: left;}
+	#totalStar{margin: 20px 5px;}
+	img{margin-top:12px; }
+	#wrap strong{display: none;color:#ef7300;}
+	#totalStar a{float: left;margin-right:5px;background: url(img/star.gif);width: 20px;height: 21px;}
+
+</style>
+
+<script>
+	/**
+		思路：1.定义好要用的
+				arrRank 等级数组
+			  2.初始化tip 消失
+			  3.移到评价星的位置，显示当前移到的评价等级，tip 提示消失。若此时，没有按下click 事件 移开鼠标，则tip 提示又回来
+				如果按下了click 事件， tip提示不在
+			  4.按下了click 事件，得到评价等级.当鼠标移动到其它等级的时候，显示当前移到的评价等级，并能触发clcik事件
+				从而修改评价等级
+
+			这是整个gif展现的效果，好，那就进一步来细化代码的流程
+
+	**/
+	window.onload = function () {
+		var oTotalStar = document.getElementById('totalStar');
+		var aStar = oTotalStar.getElementsByTagName('a');
+		var oTip = document.getElementById('tip');
+		var oStrong = document.getElementsByTagName('strong')[0];
+		var arrRank = ['很差','较差','还行','推荐','力荐'];
+		var flag = true ; //tip 提示标志
+		var lastLevel = 0;//存放上一个等级状态
+
+
+		for ( var i=0,len=aStar.length; i<len; i++ ) {
+			aStar[i].index = i;
+			aStar[i].onmouseover = function (){
+				oTip.style.display = 'none';
+				oStrong.style.display = 'block';
+				oStrong.innerHTML = arrRank[this.index];
+				setRank( this.index );
+			}
+
+			/**
+				点击事件
+				1.当点击事件触发的时候，改变当前的评级星星，移开鼠标之后,评级不发生变化，并且tip 不再提示
+				  可以用一个标志flag 表示 tip 不再提示
+				2.onmouseover事件依旧有效
+			**/
+			aStar[i].onclick = function () {
+				flag = false;
+				lastLevel = this.index;
+			}
+		}
+		oTotalStar.onmouseover = function () {
+			oTip.style.display = 'none';
+		}
+		oTotalStar.onmouseout = function () {
+			//星星状态重置
+			if ( flag ) {
+				for ( var i=0,len=aStar.length; i<len; i++ ) {
+					aStar[i].style.background = 'url(img/star.gif)';
+				}	
+				oStrong.style.display = 'none';
+				oTip.style.display = 'block';			
+			}
+			else {
+				setRank( lastLevel );
+			}
+		};
+
+		/**
+			改变评价星星等级变色,传递的参数是 level 表示当前的等级
+			当level <= 2 说明处于较差的，就设置灰色星星
+			level >2
+			注意两点
+			1.在设置当前的星星变色的时候，先把所有的星星重置为初始状态
+			2.鼠标移动到评价星星上的时候，前面的星星的颜色全部变为一致的颜色，所以需要用for循环设置
+		**/
+
+		function setRank ( level ) {
+ 			//星星状态重置
+			for ( var i=0,len=aStar.length; i<len; i++ ) {
+				aStar[i].style.background = 'url(img/star.gif)';
+			}
+
+			//设置当前评价等级
+			for ( i=0; i<= level; i++ ) {
+				if ( level < 2 ) {
+					aStar[i].style.background = 'url(img/grayStar.gif)';
+				}
+				else {
+					aStar[i].style.background = 'url(img/colorStar.gif)';
+				}	
+			}
+		}
+
+	}
+
+</script>
+
+</head>
+
+<body>
+	<div id="wrap">
+		<p><span>*</span>总体评价:</p>
+		<div id="totalStar">
+			<a href="javascript:;"></a>
+			<a href="javascript:;"></a>
+			<a href="javascript:;"></a>
+			<a href="javascript:;"></a>
+			<a href="javascript:;"></a>
+		</div>
+		<strong>等级</strong>
+		<img id="tip" src="img/tip.gif"/>			
+	</div>
+</body>
+</html>
+
+
